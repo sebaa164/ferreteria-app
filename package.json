@@ -1,32 +1,72 @@
 {
-  "name": "bcrypt",
-  "description": "A bcrypt library for NodeJS.",
-  "main": "./bcrypt",
-  "version": "5.1.1",
-  "author": "Nick Campbell (https://github.com/ncb000gt)",
-  "engines": {
-    "node": ">= 10.0.0"
+  "name": "ferreteria-app",
+  "version": "1.0.0",
+  "description": "Sistema de Gestión para Ferretería",
+  "main": "src/main/index.js",
+  "author": {
+    "name": "Equipo Desarrollo",
+    "email": "dev@ferreteria.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kelektiv/node.bcrypt.js.git"
-  },
+  "homepage": "https://ferreteria.local",
   "license": "MIT",
-  "dependencies": {
-    "@mapbox/node-pre-gyp": "^1.0.11",
-    "node-addon-api": "^5.0.0"
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\" \"wait-on http://localhost:5173 http://localhost:3001 && electron .\"",
+    "dev:frontend": "cd src/frontend && npm run dev",
+    "dev:backend": "nodemon src/backend/server.js",
+    "build:frontend": "cd src/frontend && npm run build",
+    "build": "npm run build:frontend && electron-builder",
+    "build:linux": "npm run build:frontend && electron-builder --linux",
+    "build:win": "npm run build:frontend && electron-builder --windows",
+    "package:linux": "npm run build:frontend && electron-builder --linux",
+    "package:windows": "npm run build:frontend && electron-builder --windows"
   },
   "devDependencies": {
-    "jest": "^29.6.2"
+    "concurrently": "^8.2.2",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "nodemon": "^3.0.2",
+    "wait-on": "^7.2.0"
   },
-  "binary": {
-    "module_name": "bcrypt_lib",
-    "module_path": "./lib/binding/napi-v{napi_build_version}",
-    "package_name": "{module_name}-v{version}-napi-v{napi_build_version}-{platform}-{arch}-{libc}.tar.gz",
-    "host": "https://github.com",
-    "remote_path": "kelektiv/node.bcrypt.js/releases/download/v{version}",
-    "napi_versions": [
-      3
-    ]
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "better-sqlite3": "^11.6.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "build": {
+    "appId": "com.ferreteria.app",
+    "productName": "Sistema Ferretería",
+    "files": [
+      "src/main/**/*",
+      "src/frontend/dist/**/*",
+      "!src/backend/**/*"
+    ],
+    "directories": {
+      "output": "build"
+    },
+    "extraResources": [
+      {
+        "from": "src/backend",
+        "to": "backend"
+      },
+      {
+        "from": "node_modules",
+        "to": "backend/node_modules"
+      }
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/better-sqlite3/**/*",
+      "**/node_modules/bcrypt/**/*"
+    ],
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Office",
+      "maintainer": "dev@ferreteria.com"
+    },
+    "win": {
+      "target": ["portable"]
+    }
   }
 }
