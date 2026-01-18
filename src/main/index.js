@@ -182,13 +182,12 @@ app.whenReady().then(async () => {
   console.log('🔧 Resources path:', process.resourcesPath);
   
   try {
-    // Inicializar base de datos (dentro del ASAR)
-    console.log('🔄 Inicializando base de datos...');
-    await initDatabase();
-    console.log('✅ Base de datos inicializada');
-    
     // Iniciar backend SOLO en producción
     if (app.isPackaged) {
+      // Inicializar base de datos solo en producción (evita conflicto de versiones Node/Electron)
+      console.log('🔄 Inicializando base de datos...');
+      await initDatabase();
+      console.log('✅ Base de datos inicializada');
       if (!isBackendStarted) {
         console.log('🚀 Iniciando backend en modo producción...');
         startBackend();

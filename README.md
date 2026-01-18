@@ -92,25 +92,30 @@ npm install
 cd ../..
 ```
 
-Este comando instalará:
-- Vue 3.4.15
-- Vue Router 4.2.5
-- Pinia 2.1.7
-- Axios 1.6.5
-- Vite 5.0.11
-- Tailwind CSS 3.4.1
-- Bootstrap 5.3.2 (opcional)
+### 4. Reconstruir módulos nativos
 
-### 4. Verificar instalación
+```bash
+npm rebuild better-sqlite3
+```
+
+> **Importante:** Este paso es necesario porque `better-sqlite3` es un módulo nativo que debe compilarse para tu versión de Node.js.
+
+### 5. Ejecutar la aplicación
 
 ```bash
 npm run dev
 ```
 
+Esto iniciará el frontend y backend. Si la ventana de Electron no se abre automáticamente, ejecuta en otra terminal:
+
+```bash
+npx electron .
+```
+
 Deberías ver:
 - Frontend corriendo en `http://localhost:5173`
 - Backend corriendo en `http://localhost:3001`
-- Aplicación Electron abriéndose automáticamente
+- Aplicación Electron abierta
 
 ---
 
@@ -311,15 +316,21 @@ rm -rf src/frontend/dist
 
 ## 🐛 Solución de Problemas
 
-### Error: "Cannot find module 'better-sqlite3'"
+### Error: "Cannot find module 'better-sqlite3'" o "NODE_MODULE_VERSION"
 
-**En desarrollo:**
+Este error ocurre cuando `better-sqlite3` está compilado para una versión diferente de Node.js.
+
+**Solución:**
 ```bash
 npm rebuild better-sqlite3
 ```
 
-**Al compilar:**
-Ya está incluido en `extraResources` del package.json
+**Si el error menciona NODE_MODULE_VERSION:**
+```bash
+# Limpiar y reconstruir
+rm -rf node_modules/better-sqlite3/build
+npm rebuild better-sqlite3
+```
 
 ### Error: "Puerto 3001 en uso"
 
