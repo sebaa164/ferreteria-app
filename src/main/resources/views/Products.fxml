@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ferreteria.infrastructure.ui.ProductsController"
+            styleClass="dashboard-root">
+
+    <top>
+        <HBox styleClass="navbar" alignment="CENTER_LEFT" spacing="40">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Text text="🔧" styleClass="navbar-icon"/>
+                <Label text="FERRETERÍA PRO" styleClass="navbar-brand"/>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Button text="📊 Dashboard" onAction="#handleDashboard" styleClass="nav-button"/>
+                <Button text="📦 Productos" styleClass="nav-button nav-button-active"/>
+                <Button text="💰 Ventas" onAction="#handleSales" styleClass="nav-button"/>
+                <Button text="📈 Reportes" onAction="#handleReports" styleClass="nav-button"/>
+                <Button text="👥 Usuarios" onAction="#handleUsers" styleClass="nav-button"/>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <HBox spacing="16" alignment="CENTER">
+                <VBox alignment="CENTER_RIGHT" spacing="2">
+                    <Label fx:id="welcomeLabel" text="Usuario" styleClass="nav-user-name"/>
+                    <Label fx:id="roleLabel" text="Rol" styleClass="nav-user-role"/>
+                </VBox>
+                <Button text="🚪 Salir" onAction="#handleLogout" 
+                        styleClass="logout-btn"
+                        style="-fx-background-color: rgba(239, 68, 68, 0.15); -fx-text-fill: #ef4444; -fx-background-radius: 10;"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox styleClass="main-content" spacing="24">
+            
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Gestión de Productos" styleClass="page-title"/>
+                    <Label text="Administra tu inventario y variantes" styleClass="page-subtitle"/>
+                </VBox>
+                
+                <HBox spacing="12">
+                    <Button text="➕ Producto" onAction="#handleNewProduct"
+                            style="-fx-background-color: linear-gradient(to right, #0ea5e9, #0284c7); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 24; -fx-background-radius: 10; -fx-cursor: hand;"/>
+                    <Button text="🏷️ Categoría" onAction="#handleNewCategory"
+                            style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 24; -fx-background-radius: 10; -fx-cursor: hand;"/>
+                    <Button text="🔄" onAction="#handleRefresh"
+                            style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-weight: bold; -fx-padding: 12 20; -fx-background-radius: 10; -fx-cursor: hand;"/>
+                </HBox>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER">
+                <VBox styleClass="stat-card card-blue" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Text text="📦" styleClass="card-icon"/>
+                    <Label fx:id="totalProductsLabel" text="0" styleClass="card-value"/>
+                    <Label text="Total Variantes" styleClass="card-label"/>
+                </VBox>
+
+                <VBox styleClass="stat-card card-orange" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Text text="⚠️" styleClass="card-icon"/>
+                    <Label fx:id="lowStockLabel" text="0" styleClass="card-value"/>
+                    <Label text="Stock Bajo" styleClass="card-label"/>
+                </VBox>
+
+                <VBox styleClass="stat-card card-red" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Text text="❌" styleClass="card-icon"/>
+                    <Label fx:id="outOfStockLabel" text="0" styleClass="card-value"/>
+                    <Label text="Sin Stock" styleClass="card-label"/>
+                </VBox>
+
+                <VBox styleClass="stat-card card-green" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Text text="💵" styleClass="card-icon"/>
+                    <Label fx:id="totalValueLabel" text="0.00" styleClass="card-value"/>
+                    <Label text="Valor Total" styleClass="card-label"/>
+                </VBox>
+
+                <VBox styleClass="stat-card card-purple" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Text text="🏷️" styleClass="card-icon"/>
+                    <Label fx:id="totalCategoriesLabel" text="0" styleClass="card-value"/>
+                    <Label text="Categorías" styleClass="card-label"/>
+                </VBox>
+            </HBox>
+
+            <VBox styleClass="filter-section" spacing="16">
+                <Label text="🔍 Filtros de Búsqueda" 
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <VBox spacing="6" HBox.hgrow="ALWAYS">
+                        <Label text="Buscar" styleClass="field-label"/>
+                        <TextField fx:id="searchField" 
+                                   promptText="Código, nombre, SKU..." 
+                                   styleClass="search-field"
+                                   HBox.hgrow="ALWAYS"/>
+                    </VBox>
+
+                    <VBox spacing="6" prefWidth="220">
+                        <Label text="Categoría" styleClass="field-label"/>
+                        <ComboBox fx:id="categoryFilter" 
+                                  promptText="Seleccionar..."
+                                  styleClass="filter-combo"
+                                  prefWidth="220"/>
+                    </VBox>
+
+                    <VBox spacing="6" prefWidth="180">
+                        <Label text="Estado Stock" styleClass="field-label"/>
+                        <ComboBox fx:id="stockFilter" 
+                                  promptText="Filtrar..."
+                                  styleClass="filter-combo"
+                                  prefWidth="180"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <VBox VBox.vgrow="ALWAYS" spacing="12">
+                <Label text="📋 Inventario Actual" 
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                
+                <TableView fx:id="productsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="codeColumn" text="Código" prefWidth="90"/>
+                        <TableColumn fx:id="nameColumn" text="Producto" prefWidth="180"/>
+                        <TableColumn fx:id="categoryColumn" text="Categoría" prefWidth="110"/>
+                        <TableColumn fx:id="brandColumn" text="Marca" prefWidth="100"/>
+                        <TableColumn fx:id="variantColumn" text="Variante" prefWidth="130"/>
+                        <TableColumn fx:id="skuColumn" text="SKU" prefWidth="110"/>
+                        <TableColumn fx:id="stockColumn" text="Stock" prefWidth="70"/>
+                        <TableColumn fx:id="priceColumn" text="Precio" prefWidth="90"/>
+                        <TableColumn fx:id="costColumn" text="Costo" prefWidth="90"/>
+                        <TableColumn fx:id="minStockColumn" text="Min" prefWidth="60"/>
+                        <TableColumn fx:id="locationColumn" text="Ubicación" prefWidth="100"/>
+                        <TableColumn fx:id="actionsColumn" text="Acciones" prefWidth="110"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

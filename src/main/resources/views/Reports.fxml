@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.ferreteria.infrastructure.ui.ReportsController"
+            styleClass="dashboard-root">
+
+    <!-- Navbar Superior -->
+    <top>
+        <HBox styleClass="navbar" alignment="CENTER_LEFT" spacing="12">
+            <padding>
+                <Insets top="0" right="32" bottom="0" left="32"/>
+            </padding>
+
+            <!-- Logo y Marca -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="🔧" styleClass="navbar-icon"/>
+                <Label text="Ferreteria" styleClass="navbar-brand"/>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Menu de Navegacion -->
+            <HBox alignment="CENTER" spacing="6">
+                <Button text="Dashboard" onAction="#handleDashboard" styleClass="nav-button"/>
+                <Button text="Productos" onAction="#handleProducts" styleClass="nav-button"/>
+                <Button text="Ventas" onAction="#handleSales" styleClass="nav-button"/>
+                <Button text="Reportes" styleClass="nav-button nav-button-active"/>
+                <Button text="Usuarios" onAction="#handleUsers" styleClass="nav-button"/>
+            </HBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Usuario y Logout -->
+            <HBox alignment="CENTER_RIGHT" spacing="20">
+                <VBox alignment="CENTER_RIGHT">
+                    <Label fx:id="welcomeLabel" text="Administrador" styleClass="nav-user-name"/>
+                    <Label fx:id="roleLabel" text="Admin" styleClass="nav-user-role"/>
+                </VBox>
+                <Button text="Cerrar Sesion" onAction="#handleLogout" styleClass="logout-btn, danger"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- Contenido Principal -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroll-pane">
+            <VBox styleClass="main-content" spacing="28">
+                <padding>
+                    <Insets top="32" right="40" bottom="32" left="40"/>
+                </padding>
+
+                <!-- Header de Pagina -->
+                <VBox spacing="6">
+                    <Label text="Reportes del Sistema" styleClass="page-title"/>
+                    <Label text="Genera reportes detallados de productos, ventas e inventario" styleClass="page-subtitle"/>
+                </VBox>
+
+                <!-- Opciones de Reportes -->
+                <VBox spacing="20">
+                    <Label text="Tipos de Reportes Disponibles" styleClass="section-title"/>
+                    
+                    <HBox spacing="20" alignment="CENTER">
+                        <!-- Card Reporte de Productos -->
+                        <VBox styleClass="stat-card card-blue" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="12">
+                            <Label text="📦" styleClass="card-icon"/>
+                            <Label text="Reporte de Productos" styleClass="card-label"/>
+                            <Button text="Generar" onAction="#handleProductsReport" styleClass="action-button"/>
+                        </VBox>
+
+                        <!-- Card Reporte de Ventas -->
+                        <VBox styleClass="stat-card card-green" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="12">
+                            <Label text="💰" styleClass="card-icon"/>
+                            <Label text="Reporte de Ventas" styleClass="card-label"/>
+                            <Button text="Generar" onAction="#handleSalesReport" styleClass="action-button"/>
+                        </VBox>
+
+                        <!-- Card Reporte de Inventario -->
+                        <VBox styleClass="stat-card card-orange" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="12">
+                            <Label text="📊" styleClass="card-icon"/>
+                            <Label text="Reporte de Inventario" styleClass="card-label"/>
+                            <Button text="Generar" onAction="#handleInventoryReport" styleClass="action-button"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Información Adicional -->
+                <VBox spacing="12" styleClass="info-section">
+                    <Label text="📋 Información de Reportes" styleClass="section-title"/>
+                    <VBox spacing="8">
+                        <Label text="• Los reportes se generan con datos en tiempo real de la base de datos" styleClass="info-text"/>
+                        <Label text="• Puedes exportar los datos generados para análisis externos" styleClass="info-text"/>
+                        <Label text="• Los reportes incluyen estadísticas agregadas y detalles individuales" styleClass="info-text"/>
+                        <Label text="• Se actualizan automáticamente al generar el reporte" styleClass="info-text"/>
+                    </VBox>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
