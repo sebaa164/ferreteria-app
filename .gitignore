@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compiled class files
 *.class
 
@@ -66,3 +67,48 @@ dependency-reduced-pom.xml
 
 # Windows null file
 nul
+=======
+# Dependencias
+node_modules/
+src/frontend/node_modules/
+
+# Archivos de compilación
+dist/
+build/
+src/frontend/dist/
+
+# Base de datos
+*.db
+*.db-journal
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Electron
+out/
+.webpack/
+
+# Temporal
+tmp/
+temp/
+>>>>>>> fea66c06f47bb9def1c7182488943f233513cb2b
